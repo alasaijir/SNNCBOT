@@ -148,6 +148,9 @@ def main():
                     vk_session.get_api().messages.send(user_id=int(event.user_id), message='Сам ' +str(event.text).lower()+ '\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]')
                 elif event.from_chat:
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id), message='Сам ' + str(event.text).lower()+ '\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]' )
+            elif messageText == 'КОД КРАСНЫЙ 228':
+                if event.from_user:
+                    sys.exit()
             elif checkSHS() == True:
                 if event.from_chat:
                     vk_session.get_api().messages.removeChatUser(chat_id=int(event.chat_id),user_id=int(event.user_id))
@@ -165,7 +168,5 @@ def main():
                         vk_session.get_api().messages.send(chat_id=int(event.chat_id),message=str(randomNumber)+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]')
 
 
-
 if __name__ == '__main__':
-    main()  #А зачем мейн в конце? #чтобы ты спросил
-    
+    main()
