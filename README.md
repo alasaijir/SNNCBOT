@@ -1,3 +1,2 @@
 # SNNCBOT
-Vk bot!
-Simple vk bot
+Simple bot for vk
