@@ -172,3 +172,7 @@ def main():
             #print(dict_members)
             #for mass in dict_members['profiles']:
                 #print(mass['id'], type(mass['id']))
+                
+                
+if __name__ == '__main__':
+    main()
