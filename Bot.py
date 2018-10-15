@@ -61,7 +61,7 @@ def main():
     }
 
 
-    login, password = '+375292568286', '1409SS1409sanya'
+    login, password = 'x', 'x'
     vk_session = vk_api.VkApi(login, password, auth_handler=auth_handler)
 
     try:
