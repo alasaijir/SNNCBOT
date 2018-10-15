@@ -166,13 +166,6 @@ def main():
 
 
 
-        #elif event.type == VkEventType.USER_OFFLINE or event.type == VkEventType.USER_ONLINE:
-            #dict_members = vk_session.get_api().messages.getConversationMembers(peer_id=2000000072, fields='id')
-            #print(type(dict_members))
-            #print(dict_members)
-            #for mass in dict_members['profiles']:
-                #print(mass['id'], type(mass['id']))
-                
-                
 if __name__ == '__main__':
-    main()
+    main()  /А зачем мейн в конце?
+    
