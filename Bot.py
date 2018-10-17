@@ -93,11 +93,11 @@ def main():
     ]
 
     idS = {
-        125116747:'Денис Авраменко', 139463233:'Даша Григорьева', 160015143:'Владислав Кухарев', 161047756:'Тимофей Машко', 163355437:'Надежда Дудачёва', 172095785:'Влад Сотников',
-        175486984:'Александр Сибирцев', 176734676:'Полина Петроченко', 179124539:'Саша Буткевич', 183107358:'Александра Иванкович',
-        184860650:'Георгий Черных', 194566360:'Илья Брехун', 205808093:'Иван Уткевич', 206688465:'Никон Кукар-Бухтияров', 209771910:'Мария Сафаралиева',
-        221230319:'Кирилл Медведев', 260328935:'Кирилл Ярцев', 300429635:'Даниил Сорокин', 300960822:'Карина Орлова', 313545438:'Екатерина Вергель',
-        398455414:'Ренат Валевич', 505809708:'Флоренсий Капитольевич'
+        125116747:'Денис Авраменко ', 139463233:'Даша Григорьева ', 160015143:'Владислав Кухарев ', 161047756:'Тимофей Машко ', 163355437:'Надежда Дудачёва ', 172095785:'Влад Сотников ',
+        175486984:'Александр Сибирцев ', 176734676:'Полина Петроченко ', 179124539:'Саша Буткевич ', 183107358:'Александра Иванкович ',
+        184860650:'Георгий Черных ', 194566360:'Илья Брехун ', 205808093:'Иван Уткевич ', 206688465:'Никон Кукар-Бухтияров ', 209771910:'Мария Сафаралиева ',
+        221230319:'Кирилл Медведев ', 260328935:'Кирилл Ярцев ', 300429635:'Даниил Сорокин ', 300960822:'Карина Орлова ', 313545438:'Екатерина Вергель ',
+        398455414:'Ренат Валевич ', 505809708:'Флоренсий Капитольевич '
     }
 
     idS2 = {
@@ -129,7 +129,9 @@ def main():
     for event in longpoll.listen():
         print('New event', event.type)
 
+
         if event.type == VkEventType.MESSAGE_NEW:
+
             print('Новое сообщение:')
 
             if event.from_me:
@@ -181,7 +183,6 @@ def main():
                     if i.get('text') == str(datetime.datetime.now().day) + ' ' + 'МАТАН':
                         i = i.get('attachments')
                         i = i[0]
-                        print (type(i))
                         typeAtt = i.get('type')
                         attIdDict = i.get('photo')
                         attOwnerId = attIdDict.get('owner_id')
@@ -194,28 +195,28 @@ def main():
                 mtInner = mtInner.lower()
                 for i1 in bad_words:
                     ii1 = mtInner.find(i1)
-                    if ii1 != -1 and event.user_id != 175486984:
+                    if ii1 != -1 and not event.from_me :
                         return True
 
             def checBadWord2(mtInner):
                 mtInner = mtInner.lower()
                 for i1 in bad_words:
                     ii1 = mtInner.find(i1)
-                    if ii1 != -1 and event.user_id != 175486984:
+                    if ii1 != -1 and not event.from_me :
                         return i1
 
             def checkMaty(messageText):
                 messageText = messageText.lower()
                 for i2 in maty:
                     i2 = messageText.find(i2)
-                    if i2 != -1 and event.user_id != 175486984:
+                    if i2 != -1 and not event.from_me :
                         return True
 
             def checkSHS(messageText):
                 messageText = messageText.lower()
                 for i3 in SHS:
                     i3 = messageText.find(i3)
-                    if i3 != -1 and event.user_id != 175486984:
+                    if i3 != -1 and not event.from_me :
                         return True
 
             def chechRhythm():
@@ -251,10 +252,10 @@ def main():
                         vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str('Математика на сл. урок') + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]', attachment = str(attachMATAN))
                         continue
             elif checBadWord(messageText) == True:
-                if event.from_user: #and str(event.user_id) != '175486984':
+                if event.from_user and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(user_id=int(event.user_id), message='Сам ' +str(checBadWord2(messageText))+ '\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]')
                     continue
-                elif event.from_chat: # and str(event.user_id) != '175486984':
+                elif event.from_chat and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id), message='Сам ' + str(checBadWord2(messageText))+ '\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]' )
                     continue
             elif checkMaty(messageText) == True:
@@ -276,6 +277,26 @@ def main():
                 if event.from_chat:
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str(rhythm.get(messageText))+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
                     continue
+
+        elif event.type == VkEventType.USER_ONLINE:
+            print('online detected')
+            for i in idS:
+                print('check')
+                if event.user_id == i:
+                    print('online')
+                    print('from chat')
+                    if event.extra == 4:
+                        print('4')
+                        print(idS2.get(event.user_id))
+                        vk_session.get_api().messages.send(user_id=498791030, message=str(idS2.get(event.user_id)) + ' онлайн с андроида' + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]')
+                    elif event.extra == 7:
+                        print('7')
+                        print(idS2.get(event.user_id))
+                        vk_session.get_api().messages.send(user_id=498791030, message=str(idS2.get(event.user_id)) + ' онлайн с ПК' + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]')
+                    elif event.extra == 2:
+                        print('2')
+                        print(idS2.get(event.user_id))
+                        vk_session.get_api().messages.send(chat_id=72, message=str(idS2.get(event.user_id)) + ' зашел ВК с айфона...' + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]')
 
 
 
