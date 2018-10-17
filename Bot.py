@@ -181,6 +181,7 @@ def main():
                     if i.get('text') == str(datetime.datetime.now().day) + ' ' + 'МАТАН':
                         i = i.get('attachments')
                         i = i[0]
+                        print (type(i))
                         typeAtt = i.get('type')
                         attIdDict = i.get('photo')
                         attOwnerId = attIdDict.get('owner_id')
@@ -231,17 +232,38 @@ def main():
                     if messageText == i6.lower() or messageText == i6.upper() or messageText == i6:
                         return True
 
-
-            if checBadWord(messageText) == True:
+            if checkCommands() == True:
+                if event.from_chat:
+                    commandId = commands.get(messageText)
+                    if commandId == 'chooseOneGay()':
+                        vk_session.get_api().messages.send(chat_id=int(event.chat_id), message='Я думаю, что пидор: \n' + str(chooseOneGay()) +'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
+                        continue
+                    elif commandId == 'getRandomNumber()':
+                        randomNumber = getRandomNumber()
+                        vk_session.get_api().messages.send(chat_id=int(event.chat_id),message=str(randomNumber)+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
+                        continue
+                    elif commandId == 'yesOrNo()':
+                        randomYesOrNo = yesOrNo()
+                        vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str(randomYesOrNo) + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]')
+                        continue
+                    elif commandId == 'getMATAN()':
+                        attachMATAN = getMATAN()
+                        vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str('Математика на сл. урок') + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]', attachment = str(attachMATAN))
+                        continue
+            elif checBadWord(messageText) == True:
                 if event.from_user: #and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(user_id=int(event.user_id), message='Сам ' +str(checBadWord2(messageText))+ '\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]')
+                    continue
                 elif event.from_chat: # and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id), message='Сам ' + str(checBadWord2(messageText))+ '\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d; %H.%M.%S") +' ]' )
+                    continue
             elif checkMaty(messageText) == True:
                 if event.from_user:# and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(user_id=int(event.user_id), message='Не матерись!'+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
+                    continue
                 elif event.from_chat:# and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id), message='Не матерись!'+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
+                    continue
             elif messageText == 'КОД КРАСНЫЙ 228':
                 if event.from_user and str(event.user_id) == '175486984':
                     sys.exit()
@@ -249,23 +271,12 @@ def main():
                 if event.from_chat and str(event.user_id) != '175486984':
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id),attachment='photo175486984_456242877')
                     vk_session.get_api().messages.removeChatUser(chat_id=int(event.chat_id),user_id=int(event.user_id))
+                    continue
             elif chechRhythm() == True:
                 if event.from_chat:
                     vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str(rhythm.get(messageText))+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
-            elif checkCommands() == True:
-                if event.from_chat:
-                    commandId = commands.get(messageText)
-                    if commandId == 'chooseOneGay()':
-                        vk_session.get_api().messages.send(chat_id=int(event.chat_id), message='Я думаю, что пидор: \n' + str(chooseOneGay()) +'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
-                    elif commandId == 'getRandomNumber()':
-                        randomNumber = getRandomNumber()
-                        vk_session.get_api().messages.send(chat_id=int(event.chat_id),message=str(randomNumber)+'\n'+'[ BOT // ' + ' ' +datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") +' ]')
-                    elif commandId == 'yesOrNo()':
-                        randomYesOrNo = yesOrNo()
-                        vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str(randomYesOrNo) + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]')
-                    elif commandId == 'getMATAN()':
-                        attachMATAN = getMATAN()
-                        vk_session.get_api().messages.send(chat_id=int(event.chat_id), message=str('Математика на сл. урок') + '\n' + '[ BOT // ' + ' ' + datetime.datetime.today().strftime("%Y-%m-%d, %H.%M.%S") + ' ]', attachment = str(attachMATAN))
+                    continue
+
 
 
         #elif event.type == VkEventType.MESSAGE_EDIT:
